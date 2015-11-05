@@ -25,8 +25,8 @@ frequency as the bus draws closer
 * Users are presented with a series of lists to select their target bus agency,  
 line, direction, and stop name
 * User sees upcoming bus times for their selected stop
-* User can push a button to enable "audio readouts" which would begin text-to-  
-speech readouts of time predictions
+* User can push a button to enable "audio readouts" which would begin text  
+to speech readouts of time predictions
 * User listens to these predictions and catches their bus on time
 * User stops the audio readouts or closes the app
 
