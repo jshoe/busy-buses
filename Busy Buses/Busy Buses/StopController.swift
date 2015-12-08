@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StopController: UITableViewController {
+class StopController: UITableViewController, UISearchResultsUpdating {
     var agencyName = String()
     var agencyID = String()
     var lineName = String()
@@ -20,11 +20,38 @@ class StopController: UITableViewController {
     var stopIDs: [String] = []
     var stopDict = [String: String]()
     @IBOutlet var listView: UITableView!
+    var filteredTableData = [String]()
+    var resultSearchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.makeSearchController()
         self.title = directionName
-        processRoutes()
+        if routeJSON.isEmpty {
+            self.loadBusData()
+        } else {
+            processRoutes()
+        }
+    }
+    
+    func makeSearchController() {
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.hidesNavigationBarDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            self.tableView.tableHeaderView = controller.searchBar
+            return controller
+        })()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.resultSearchController.active = false
+    }
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
     }
     
     func processRoutes() {
@@ -44,13 +71,47 @@ class StopController: UITableViewController {
         }
     }
     
+    func loadBusData() {
+        let url = NSURL(string: "http://restbus.info/api/agencies/" + agencyID + "/routes/")
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
+            (data, response, error) -> Void in
+            if error == nil {
+                self.routeJSON = JSON(data: data!)
+                self.processRoutes()
+            }
+        }
+        task.resume()
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stopNames.count
+        if (self.resultSearchController.active) {
+            return self.filteredTableData.count
+        }
+        else {
+            return self.stopNames.count
+        }
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController)
+    {
+        filteredTableData.removeAll(keepCapacity: false)
+        if searchController.searchBar.text == "" {
+            filteredTableData = stopNames
+        } else {
+            let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)
+            let array = (stopNames as NSArray).filteredArrayUsingPredicate(searchPredicate)
+            filteredTableData = array as! [String]
+        }
+        self.tableView.reloadData()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("StopCell", forIndexPath: indexPath)
-        cell.textLabel?.text = stopNames[indexPath.row]
+        if (self.resultSearchController.active) {
+            cell.textLabel?.text = filteredTableData[indexPath.row]
+        } else {
+            cell.textLabel?.text = stopNames[indexPath.row]
+        }
         return cell
     }
     

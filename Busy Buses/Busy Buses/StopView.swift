@@ -25,8 +25,8 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var readoutInterval = Int()
     @IBOutlet var listView: UITableView!
     @IBOutlet var audioEnabled: UISwitch!
-    var intervalPicker: UIPickerView!
-    let intervalPickerValues = ["1", "2"]
+    var intervalPicker = UIPickerView()
+    let intervalPickerValues = ["Auto Interval", "Every 1 minute", "Every 5 minutes", "Every 10 minutes", "Every 20 minutes"]
     @IBOutlet var intervalInput: UITextField!
     
     override func viewDidLoad() {
@@ -34,10 +34,10 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.title = stopName
         listView.dataSource = self
         listView.delegate = self
-        intervalPicker = UIPickerView()
         intervalPicker.dataSource = self
         intervalPicker.delegate = self
         intervalInput.inputView = intervalPicker
+        intervalInput.text = "Auto Interval"
         
         audioEnabled.setOn(false, animated: false)
         self.loadPredictions()
@@ -62,10 +62,11 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int){
         intervalInput.text = intervalPickerValues[row]
         self.view.endEditing(true)
+        self.sayTimes()
     }
     
     func loadPredictions() {
-        let url = NSURL(string: "http://restbus.info/api/agencies/" + agencyID + "/routes/" + lineName + "/stops/" + stopID + "/predictions")
+        let url = NSURL(string: "http://restbus.info/api/agencies/" + agencyID + "/routes/" + lineID + "/stops/" + stopID + "/predictions")
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) -> Void in
             if error == nil {
@@ -94,17 +95,46 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             NSOperationQueue.mainQueue().addOperationWithBlock(){
                 self.listView.reloadData();
             }
-            if lastTime.isEmpty || abs(Int(lastTime)! - Int(self.predictions[0])!) >= 1 {
-                self.sayTimes()
+            delay(60.0) {
+                self.loadPredictions()
             }
-            self.delayedRefresh()
         }
     }
     
     @IBAction func buttonClicked(sender: AnyObject) {
+        if audioEnabled.on {
+            intervalInput.hidden = false
+        } else {
+            intervalInput.hidden = true
+        }
         self.sayTimes()
     }
     
+    func getAudioInterval() -> Int {
+        let cur = intervalInput.text
+        if cur == "Auto Interval" {
+            let next = Int(self.predictions[0])
+            if next > 40 {
+                return 20
+            } else if next > 30 {
+                return 10
+            } else if next > 10 {
+                return 5
+            } else {
+                return 1
+            }
+        } else if cur == "Every 1 minute" {
+            return 1
+        } else if cur == "Every 5 minutes" {
+            return 5
+        } else if cur == "Every 10 minutes" {
+            return 10
+        } else if cur == "Every 20 minutes" {
+            return 20
+        }
+        return 5
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return predictions.count
     }
@@ -115,9 +145,12 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("PredictionCell", forIndexPath: indexPath)
+        if indexPath.row >= predictions.count {
+            return cell
+        }
         let time = Int(predictions[indexPath.row])
         if time == 0 {
-            cell.textLabel?.text = "Arriving"
+            cell.textLabel?.text = "Arriving now"
         } else if time == 1 {
             cell.textLabel?.text = "1 minute"
         } else {
@@ -127,18 +160,18 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         return cell
     }
     
-    func delayedRefresh() {
-        let seconds = 60.0
-        let delay = seconds * Double(NSEC_PER_SEC)
-        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        
-        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-            self.loadPredictions()
-        })
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
-    
+
     func sayTimes() {
-        if !audioEnabled.on {
+        if !audioEnabled.on || self.predictions.isEmpty {
+            print("No predictions")
             return
         }
         let speechSynthesizer = AVSpeechSynthesizer()
@@ -152,7 +185,9 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             text = "The next bus comes in " + String(time!) + " minutes."
         }
         print(text)
-        let utterance = AVSpeechUtterance(string: text)
-        speechSynthesizer.speakUtterance(utterance)
+        speechSynthesizer.speakUtterance(AVSpeechUtterance(string: text))
+        delay(Double(self.getAudioInterval() * 60 + 5)) {
+            self.sayTimes()
+        }
     }
 }

@@ -21,7 +21,7 @@ class DirectionController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = lineName + " Line"
-        let url = NSURL(string: "http://restbus.info/api/agencies/" + agencyID + "/routes/" + lineName)
+        let url = NSURL(string: "http://restbus.info/api/agencies/" + agencyID + "/routes/" + lineID)
         let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) -> Void in
             if error == nil {

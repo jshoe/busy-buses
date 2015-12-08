@@ -45,7 +45,7 @@
                             <outlet property="delegate" destination="mPy-dy-g79" id="oKp-2s-LzL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Agencies" id="nj6-OK-lW7"/>
+                    <navigationItem key="navigationItem" title="Transit Agencies" id="nj6-OK-lW7"/>
                     <connections>
                         <outlet property="listView" destination="rSR-XO-ZyX" id="JPl-pG-mNb"/>
                     </connections>
@@ -188,8 +188,8 @@
                                     <action selector="buttonClicked:" destination="5uN-d2-NBW" eventType="valueChanged" id="ibh-zh-Z5o"/>
                                 </connections>
                             </switch>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U2Q-9h-2ZY">
-                                <rect key="frame" x="252" y="449" width="97" height="30"/>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U2Q-9h-2ZY">
+                                <rect key="frame" x="288" y="452" width="25" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -200,7 +200,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="xlo-ho-wnE" secondAttribute="trailing" id="L3K-5k-0BZ"/>
                             <constraint firstItem="dL9-jG-SY1" firstAttribute="top" secondItem="xlo-ho-wnE" secondAttribute="bottom" constant="250" id="TLu-fl-xuQ"/>
-                            <constraint firstItem="U2Q-9h-2ZY" firstAttribute="top" secondItem="rrL-AE-X2c" secondAttribute="bottom" constant="22" id="a51-ox-F1u"/>
+                            <constraint firstItem="U2Q-9h-2ZY" firstAttribute="top" secondItem="rrL-AE-X2c" secondAttribute="bottom" constant="25" id="a51-ox-F1u"/>
                             <constraint firstItem="U2Q-9h-2ZY" firstAttribute="centerX" secondItem="Teo-NR-oQS" secondAttribute="centerX" id="dnm-j0-Hcf"/>
                             <constraint firstItem="JqI-V9-kJU" firstAttribute="centerY" secondItem="rrL-AE-X2c" secondAttribute="centerY" id="dqn-uN-pu0"/>
                             <constraint firstItem="rrL-AE-X2c" firstAttribute="leading" secondItem="JqI-V9-kJU" secondAttribute="trailing" constant="17" id="hTh-aG-1HI"/>
