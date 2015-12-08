@@ -14,6 +14,7 @@ class AgencyController: UITableViewController, UISearchResultsUpdating {
     var agencyIDs: [String] = []
     @IBOutlet var listView: UITableView!
     var filteredTableData = [String]()
+    var nameToID = [String: String]()
     var resultSearchController = UISearchController()
     
     override func viewDidLoad() {
@@ -76,6 +77,7 @@ class AgencyController: UITableViewController, UISearchResultsUpdating {
         for (_, info):(String, JSON) in self.agenciesJSON {
             self.agencyNames.append(info["title"].string!)
             self.agencyIDs.append(info["id"].string!)
+            nameToID[info["title"].string!] = info["id"].string!
         }
         NSOperationQueue.mainQueue().addOperationWithBlock(){
             self.listView.reloadData();
@@ -96,8 +98,13 @@ class AgencyController: UITableViewController, UISearchResultsUpdating {
         if segue.identifier == "showLines" {
             if let destination = segue.destinationViewController as? BusLineController {
                 let index = tableView.indexPathForSelectedRow!.row
-                destination.agencyName = self.agencyNames[index]
-                destination.agencyID = self.agencyIDs[index]
+                if (self.resultSearchController.active) {
+                    destination.agencyName = filteredTableData[index]
+                    destination.agencyID = nameToID[filteredTableData[index]]!
+                } else {
+                    destination.agencyName = self.agencyNames[index]
+                    destination.agencyID = self.agencyIDs[index]
+                }
                 let backItem = UIBarButtonItem()
                 backItem.title = "Agencies"
                 navigationItem.backBarButtonItem = backItem

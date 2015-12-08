@@ -19,6 +19,7 @@ class StopController: UITableViewController, UISearchResultsUpdating {
     var stopNames: [String] = []
     var stopIDs: [String] = []
     var stopDict = [String: String]()
+    var stopNameToID = [String: String]()
     @IBOutlet var listView: UITableView!
     var filteredTableData = [String]()
     var resultSearchController = UISearchController()
@@ -57,6 +58,7 @@ class StopController: UITableViewController, UISearchResultsUpdating {
     func processRoutes() {
         for (_, info):(String, JSON) in self.routeJSON["stops"] {
             stopDict[info["id"].string!] = info["title"].string!
+            stopNameToID[info["title"].string!] = info["id"].string!
         }
         for (_, info):(String, JSON) in self.routeJSON["directions"] {
             if info["title"].string! == directionName {
@@ -125,8 +127,13 @@ class StopController: UITableViewController, UISearchResultsUpdating {
                 destination.lineID = self.lineID
                 destination.directionName = self.directionName
                 destination.directionID = self.directionID
-                destination.stopName = self.stopNames[index]
-                destination.stopID = self.stopIDs[index]
+                if (self.resultSearchController.active) {
+                    destination.stopName = filteredTableData[index]
+                    destination.stopID = stopNameToID[filteredTableData[index]]!
+                } else {
+                    destination.stopName = self.stopNames[index]
+                    destination.stopID = self.stopIDs[index]
+                }
                 let backItem = UIBarButtonItem()
                 backItem.title = "Stops"
                 navigationItem.backBarButtonItem = backItem

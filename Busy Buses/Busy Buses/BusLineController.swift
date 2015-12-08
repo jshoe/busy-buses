@@ -16,6 +16,7 @@ class BusLineController: UITableViewController, UISearchResultsUpdating {
     var lineJSON = JSON(NSData)
     @IBOutlet var listView: UITableView!
     var filteredTableData = [String]()
+    var nameToID = [String: String]()
     var resultSearchController = UISearchController()
     
     override func viewDidLoad() {
@@ -57,6 +58,7 @@ class BusLineController: UITableViewController, UISearchResultsUpdating {
         for (_, info):(String, JSON) in self.lineJSON {
             self.lineNames.append(info["title"].string!)
             self.lineIDs.append(info["id"].string!)
+            nameToID[info["title"].string!] = info["id"].string!
         }
         NSOperationQueue.mainQueue().addOperationWithBlock(){
             self.listView.reloadData();
@@ -101,8 +103,13 @@ class BusLineController: UITableViewController, UISearchResultsUpdating {
                 let index = tableView.indexPathForSelectedRow!.row
                 destination.agencyName = self.agencyName
                 destination.agencyID = self.agencyID
-                destination.lineName = self.lineNames[index]
-                destination.lineID = self.lineIDs[index]
+                if (self.resultSearchController.active) {
+                    destination.lineName = filteredTableData[index]
+                    destination.lineID = nameToID[filteredTableData[index]]!
+                } else {
+                    destination.lineName = self.lineNames[index]
+                    destination.lineID = self.lineIDs[index]
+                }
                 let backItem = UIBarButtonItem()
                 backItem.title = "Lines"
                 navigationItem.backBarButtonItem = backItem

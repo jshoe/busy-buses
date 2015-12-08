@@ -9,13 +9,15 @@ stop, allowing them to time their transit perfectly without constantly checking
 prediction times.
 
 ## Features
-* Ability to select a bus agency, line, direction, and stop from the NextBus /  
-RestBus API
+* Ability to select a bus agency, bus line, direction, and stop from the 
+NextBus / RestBus API
+* Ability to search and filter through selections
 * Automatic time prediction updates
-* Ability to read out time predictions at periodic intervals (e.g. 1-20 min.)
 * Ability to enable/disable "audio readout" mode
+* Ability to read out time predictions at periodic intervals (1 to 20 min.)
 * Time interval can be user-configurable or automatically increasing in  
 frequency as the bus draws closer
+* Ability to save a stop as a "Favorite" and view favorites
 
 ## Control Flow
 * Users are presented with a series of lists to select their target bus agency,  
@@ -40,3 +42,4 @@ to speech readouts of time predictions
 * BusLineController.swift
 * DirectionController.swift
 * StopController.swift
+* FavoritesViewController.swift

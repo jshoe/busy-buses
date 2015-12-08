@@ -18,6 +18,8 @@
 		ABDC738B1C13F9AC009F9AB7 /* StopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC738A1C13F9AC009F9AB7 /* StopController.swift */; };
 		ABDC738D1C13FFA2009F9AB7 /* StopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDC738C1C13FFA2009F9AB7 /* StopView.swift */; };
 		ABDC738F1C140B2C009F9AB7 /* bus.png in Resources */ = {isa = PBXBuildFile; fileRef = ABDC738E1C140B2C009F9AB7 /* bus.png */; };
+		ABDFC4BA1C16745B00AFC137 /* Favorites.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ABDFC4B81C16745B00AFC137 /* Favorites.xcdatamodeld */; };
+		ABDFC4BC1C16807600AFC137 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDFC4BB1C16807600AFC137 /* FavoritesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		ABDC738A1C13F9AC009F9AB7 /* StopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopController.swift; sourceTree = "<group>"; };
 		ABDC738C1C13FFA2009F9AB7 /* StopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopView.swift; sourceTree = "<group>"; };
 		ABDC738E1C140B2C009F9AB7 /* bus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bus.png; sourceTree = "<group>"; };
+		ABDFC4B91C16745B00AFC137 /* Favorites.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Favorites.xcdatamodel; sourceTree = "<group>"; };
+		ABDFC4BB1C16807600AFC137 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,11 +72,13 @@
 			children = (
 				AB7C55731C13BB26008E4426 /* SwiftyJSON.swift */,
 				AB7C55611C13BB1E008E4426 /* AppDelegate.swift */,
+				ABDFC4B81C16745B00AFC137 /* Favorites.xcdatamodeld */,
 				AB09C0141C13DE8200948407 /* AgencyController.swift */,
 				AB09C0161C13EA6B00948407 /* BusLineController.swift */,
 				AB21A7181C13F44B00A46665 /* DirectionController.swift */,
 				ABDC738A1C13F9AC009F9AB7 /* StopController.swift */,
 				ABDC738C1C13FFA2009F9AB7 /* StopView.swift */,
+				ABDFC4BB1C16807600AFC137 /* FavoritesViewController.swift */,
 				AB7C55651C13BB1E008E4426 /* Main.storyboard */,
 				ABDC738E1C140B2C009F9AB7 /* bus.png */,
 				AB7C55681C13BB1E008E4426 /* Assets.xcassets */,
@@ -156,6 +162,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB09C0171C13EA6B00948407 /* BusLineController.swift in Sources */,
+				ABDFC4BC1C16807600AFC137 /* FavoritesViewController.swift in Sources */,
+				ABDFC4BA1C16745B00AFC137 /* Favorites.xcdatamodeld in Sources */,
 				AB21A7191C13F44B00A46665 /* DirectionController.swift in Sources */,
 				ABDC738D1C13FFA2009F9AB7 /* StopView.swift in Sources */,
 				AB7C55741C13BB26008E4426 /* SwiftyJSON.swift in Sources */,
@@ -318,6 +326,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		ABDFC4B81C16745B00AFC137 /* Favorites.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				ABDFC4B91C16745B00AFC137 /* Favorites.xcdatamodel */,
+			);
+			currentVersion = ABDFC4B91C16745B00AFC137 /* Favorites.xcdatamodel */;
+			path = Favorites.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AB7C55561C13BB1D008E4426 /* Project object */;
 }

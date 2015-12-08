@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CoreData
 
 class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     var agencyName = String()
@@ -28,23 +29,29 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var intervalPicker = UIPickerView()
     let intervalPickerValues = ["Auto Interval", "Every 1 minute", "Every 5 minutes", "Every 10 minutes", "Every 20 minutes"]
     @IBOutlet var intervalInput: UITextField!
+    @IBOutlet var favoriteButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = stopName
+        self.navigationController?.setToolbarHidden(false, animated: true)
         listView.dataSource = self
         listView.delegate = self
         intervalPicker.dataSource = self
         intervalPicker.delegate = self
         intervalInput.inputView = intervalPicker
         intervalInput.text = "Auto Interval"
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
         audioEnabled.setOn(false, animated: false)
         self.loadPredictions()
     }
     
     override func viewWillDisappear(animated: Bool) {
         audioEnabled.setOn(false, animated: false)
+        self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int{
@@ -110,6 +117,10 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.sayTimes()
     }
     
+    @IBAction func buttonAction(sender: UIBarButtonItem!) {
+        saveToFavorites()
+    }
+
     func getAudioInterval() -> Int {
         let cur = intervalInput.text
         if cur == "Auto Interval" {
@@ -188,6 +199,26 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         speechSynthesizer.speakUtterance(AVSpeechUtterance(string: text))
         delay(Double(self.getAudioInterval() * 60 + 5)) {
             self.sayTimes()
+        }
+    }
+    
+    func saveToFavorites() {
+        let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDel.managedObjectContext
+        let entity = NSEntityDescription.entityForName("Fav_stop", inManagedObjectContext: managedContext)
+        let favorite = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        favorite.setValue(agencyName, forKey: "agencyName")
+        favorite.setValue(agencyID, forKey: "agencyID")
+        favorite.setValue(lineName, forKey: "lineName")
+        favorite.setValue(lineID, forKey: "lineID")
+        favorite.setValue(directionName, forKey: "directionName")
+        favorite.setValue(directionID, forKey: "directionID")
+        favorite.setValue(stopName, forKey: "stopName")
+        favorite.setValue(stopID, forKey: "stopID")
+        do {
+            try managedContext.save()
+        } catch _ as NSError {
+            print("Unsuccessful save.")
         }
     }
 }

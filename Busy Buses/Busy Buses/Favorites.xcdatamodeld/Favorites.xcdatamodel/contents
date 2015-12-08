@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+    <entity name="Fav_stop" syncable="YES">
+        <attribute name="agencyID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="agencyName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="directionID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="directionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Fav_stop" positionX="-63" positionY="-18" width="128" height="165"/>
+    </elements>
+</model>
