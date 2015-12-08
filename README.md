@@ -12,14 +12,10 @@ prediction times.
 * Ability to select a bus agency, line, direction, and stop from the NextBus /  
 RestBus API
 * Automatic time prediction updates
-* Ability to read out time predictions at periodic intervals (e.g. 1-10 min.)
+* Ability to read out time predictions at periodic intervals (e.g. 1-20 min.)
 * Ability to enable/disable "audio readout" mode
 * Time interval can be user-configurable or automatically increasing in  
 frequency as the bus draws closer
-* Stretch goals:
-	* "Favorites" list for stops that the user can set up and save
-	* Integration with a "Maps" view that will let users select a nearby  
-        stop visually
 
 ## Control Flow
 * Users are presented with a series of lists to select their target bus agency,  
@@ -33,14 +29,14 @@ to speech readouts of time predictions
 ## Implementation
 
 ### Model
-* BusTracker.swift
-* JSONParser.swift
-* TTSHandler.swift
+* SwiftyJSON.swift (3rd-party library)
 
 ### View
-* StopSelectorTableView
-* CurrentStopView
+* StopView.swift
+* Main.storyboard views
 
 ### Controller
-* StopSelectorTableViewController
-* CurrentStopViewController
+* AgencyController.swift
+* BusLineController.swift
+* DirectionController.swift
+* StopController.swift
