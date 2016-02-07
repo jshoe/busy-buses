@@ -46,7 +46,7 @@ to speech readouts of time predictions
 ## Screenshots
 
 ![interface screenshot](shot2.png)
-<br>
+<br><br>
 ![interface screenshot](shot3.png)
-<br>
+<br><br>
 ![interface screenshot](shot4.png)
