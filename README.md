@@ -1,7 +1,6 @@
 # Busy Buses
 
-## Author
-* Jonathan Sheu
+![interface screenshot](shot1.png)
 
 ## Purpose
 Busy Buses gives users periodic audio readouts as a bus is approaching their  
@@ -43,3 +42,9 @@ to speech readouts of time predictions
 * DirectionController.swift
 * StopController.swift
 * FavoritesViewController.swift
+
+## Screenshots
+
+![interface screenshot](shot2.png)
+![interface screenshot](shot3.png)
+![interface screenshot](shot4.png)

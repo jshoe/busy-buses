@@ -95,12 +95,12 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if self.predictions.count == 0 {
             headerTitle = "No incoming buses!"
             NSOperationQueue.mainQueue().addOperationWithBlock(){
-                self.listView.reloadData();
+                self.listView.reloadData()
             }
         } else {
             headerTitle = "Next bus times:"
             NSOperationQueue.mainQueue().addOperationWithBlock(){
-                self.listView.reloadData();
+                self.listView.reloadData()
             }
             delay(60.0) {
                 self.loadPredictions()
@@ -111,6 +111,7 @@ class StopView: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     @IBAction func buttonClicked(sender: AnyObject) {
         if audioEnabled.on {
             intervalInput.hidden = false
+            UIApplication.sharedApplication().idleTimerDisabled = true
         } else {
             intervalInput.hidden = true
         }

@@ -65,6 +65,7 @@ class FavoritesViewController: UITableViewController {
         } catch _ as NSError {
             print("Error loading favorites.")
         }
+        self.listView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
